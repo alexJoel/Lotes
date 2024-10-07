@@ -1,0 +1,46 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+<mat-toolbar>
+  <mat-toolbar-row class="bg-blue-400">
+    <span class="text-white">Lotes</span>
+    <span class="flex-1"></span>
+    <form [formGroup]="formSubasta">
+      <mat-form-field class="pt-4">
+        <mat-label>key</mat-label>
+        <input matInput formControlName="listData"/>
+        @if (formSubasta.value.listData) {
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="formSubasta.patchValue({listData: ''})">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+      <button mat-flat-button class="ms-3" (click)="submit()">Next</button>
+    </form>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="container py-3">
+  <div class="row">
+    <div class="col">
+      @if(listLotes){ 
+        <mat-accordion>
+          @for (item of listLotes; track item) {
+            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{item.LoteId}}</mat-panel-title>
+                <mat-panel-description>
+                  Cantidad de items: {{item.Lotes.length}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <ag-grid-angular
+                class="ag-theme-quartz"
+                style="height: 500px;"
+                [rowData]="item.Lotes"
+                [columnDefs]="colDefs" />
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      }
+    </div>
+  </div>
+</div>
+<router-outlet />
