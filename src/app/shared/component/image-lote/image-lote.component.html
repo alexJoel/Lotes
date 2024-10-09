@@ -1,5 +1,5 @@
-<img width="500" height="500" [mtxTooltip]="tooltipTpl" [src]="params.value">
+<img width="500" height="500" [mtxTooltip]="tooltipTpl" [src]="'https://images.weserv.nl/?url=' + params.value">
 
 <ng-template #tooltipTpl style="background: gray; width: 550vh;">
-    <img [src]="params.value" style="width: 100%;">
+    <img [src]="'https://images.weserv.nl/?url=' + params.value" style="width: 100%;">
 </ng-template>
