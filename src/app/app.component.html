@@ -3,17 +3,17 @@
   <mat-toolbar-row class="bg-blue-400">
     <span class="text-white">Lotes</span>
     <span class="flex-1"></span>
-    <form [formGroup]="formSubasta">
+    <form [formGroup]="formSubasta" (ngSubmit)="submit()">
       <mat-form-field class="pt-4">
         <mat-label>key</mat-label>
-        <input matInput formControlName="listData"/>
-        @if (formSubasta.value.listData) {
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="formSubasta.patchValue({listData: ''})">
+        <input matInput formControlName="key"/>
+        @if (formSubasta.value.key) {
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="formSubasta.patchValue({key: ''})">
             <mat-icon>close</mat-icon>
           </button>
         }
       </mat-form-field>
-      <button mat-mini-fab class="ms-2" (click)="submit()">
+      <button mat-mini-fab class="ms-2" type="submit">
         <mat-icon>
           arrow_forward_ios
         </mat-icon>

@@ -22,16 +22,25 @@ export class AppComponent {
   public listLotes: any = [];
 
   public formSubasta = new FormGroup({
-    listData: new FormControl(''),
+    key: new FormControl(''),
   });
 
   colDefs: ColDef[] = [
+    // Descripción: MOCHILA Características: COLOR NEGRO Cantidad: 1 Unidad de Medida: Número de Unidades Industria: No determinado Fecha Vencimiento: N/A Modelo: Estado: NUEVA Peso Kg.: 1.5 Observaciones: CON LOGO
     {
       field: 'imageUri',
       cellRenderer: ImageLoteComponent,
       width: 250,
     },
-    { field: 'Descripcion', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Descripcion', field: 'desc', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Características', field: 'characteristics', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Cant',field: 'cant', flex: 1, autoHeight: false },
+    { headerName: 'Industria',field: 'industry', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Fecha Vencimiento',field: 'expirationDate', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Modelo',field: 'model', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Estado',field: 'status', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Peso kg',field: 'peso', flex: 1, wrapText: true, autoHeight: true },
+    { headerName: 'Observaciones',field: 'obs', flex: 1, wrapText: true, autoHeight: true },
   ];
 
   constructor(
@@ -41,9 +50,9 @@ export class AppComponent {
 
   submit() {
     this.spinner.show();
-    console.log(this.formSubasta.value.listData);
-    if (this.formSubasta.value.listData) {
-      this.lote.searchLotes(this.formSubasta.value.listData).subscribe({
+    console.log(this.formSubasta.value.key);
+    if (this.formSubasta.value.key && this.formSubasta.value.key.trim() !== '') {
+      this.lote.searchLotes(this.formSubasta.value.key).subscribe({
         next: (res: any) => {
           console.log(res);
           if (res) {
@@ -56,7 +65,16 @@ export class AppComponent {
 
               this.lotesObj[x.LotNumber].lotes.push({
                 imageUri: x.ImageUri,
-                Descripcion: x.Description,
+                desc: this.extractText(x.Description, 'Descripción:','Características'),
+                characteristics: this.extractText(x.Description, 'Características:','Cantidad'),
+                cant: this.extractText(x.Description, 'Cantidad:','Unidad de Medida'),
+                unity: this.extractText(x.Description, 'Unidad de Medida:','Industria'),
+                industry: this.extractText(x.Description, 'Industria:','Fecha Vencimiento'),
+                expirationDate: this.extractText(x.Description, 'Fecha Vencimiento:','Modelo'),
+                model: this.extractText(x.Description, 'Modelo:','Estado'),
+                status: this.extractText(x.Description, 'Estado:','Peso Kg'),
+                peso: this.extractText(x.Description, 'Peso Kg.:','Observaciones'),
+                obs: x.Description.split('Observaciones:')[0],
               });
             });
 
@@ -80,5 +98,11 @@ export class AppComponent {
         }
       });
     }
+  }
+
+  extractText(parrafo: string, inicio:string, fin: string): any {
+    const patron = new RegExp(`${inicio}(.*?)${fin}`);
+    const resultado = parrafo.match(patron);
+    return resultado ? resultado[1].trim() : null;
   }
 }
