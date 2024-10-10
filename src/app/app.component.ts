@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LoteService } from './services/lote.service';
 import { NgxSpinnerModule, NgxSpinnerService } from "ngx-spinner";
+import { DescriptionComponent } from './shared/component/description/description.component';
 
 @Component({
   selector: 'app-root',
@@ -32,15 +33,19 @@ export class AppComponent {
       cellRenderer: ImageLoteComponent,
       width: 250,
     },
-    { headerName: 'Descripcion', field: 'desc', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Características', field: 'characteristics', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Cant',field: 'cant', flex: 1, autoHeight: false },
-    { headerName: 'Industria',field: 'industry', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Fecha Vencimiento',field: 'expirationDate', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Modelo',field: 'model', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Estado',field: 'status', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Peso kg',field: 'peso', flex: 1, wrapText: true, autoHeight: true },
-    { headerName: 'Observaciones',field: 'obs', flex: 1, wrapText: true, autoHeight: true },
+    {
+      headerName: 'Descripcion',
+      field: 'desc', flex: 1, wrapText: true, autoHeight: true, 
+      cellRenderer: DescriptionComponent,
+    },
+    // { headerName: 'Características', field: 'characteristics', flex: 1, wrapText: true, autoHeight: true },
+    // { headerName: 'Cant',field: 'cant', flex: 1, autoHeight: false },
+    // { headerName: 'Industria',field: 'industry', flex: 1, wrapText: true, autoHeight: true },
+    // { headerName: 'Fecha Vencimiento',field: 'expirationDate', flex: 1, wrapText: true, autoHeight: true },
+    // { headerName: 'Modelo',field: 'model', flex: 1, wrapText: true, autoHeight: true },
+    // { headerName: 'Estado',field: 'status', flex: 1, wrapText: true, autoHeight: true },
+    // { headerName: 'Peso kg',field: 'peso', flex: 1, wrapText: true, autoHeight: true },
+    // { headerName: 'Observaciones',field: 'obs', flex: 1, wrapText: true, autoHeight: true },
   ];
 
   constructor(
@@ -54,6 +59,7 @@ export class AppComponent {
     if (this.formSubasta.value.key && this.formSubasta.value.key.trim() !== '') {
       this.lote.searchLotes(this.formSubasta.value.key).subscribe({
         next: (res: any) => {
+        // const res = this.lote.data();
           console.log(res);
           if (res) {
             res.forEach((x: any) => {
@@ -65,16 +71,16 @@ export class AppComponent {
 
               this.lotesObj[x.LotNumber].lotes.push({
                 imageUri: x.ImageUri,
-                desc: this.extractText(x.Description, 'Descripción:','Características'),
-                characteristics: this.extractText(x.Description, 'Características:','Cantidad'),
-                cant: this.extractText(x.Description, 'Cantidad:','Unidad de Medida'),
-                unity: this.extractText(x.Description, 'Unidad de Medida:','Industria'),
-                industry: this.extractText(x.Description, 'Industria:','Fecha Vencimiento'),
-                expirationDate: this.extractText(x.Description, 'Fecha Vencimiento:','Modelo'),
-                model: this.extractText(x.Description, 'Modelo:','Estado'),
-                status: this.extractText(x.Description, 'Estado:','Peso Kg'),
-                peso: this.extractText(x.Description, 'Peso Kg.:','Observaciones'),
-                obs: x.Description.split('Observaciones:')[0],
+                desc: x.Description// this.extractText(x.Description, 'Descripción:','Características'),
+                // characteristics: this.extractText(x.Description, 'Características:','Cantidad'),
+                // cant: this.extractText(x.Description, 'Cantidad:','Unidad de Medida'),
+                // unity: this.extractText(x.Description, 'Unidad de Medida:','Industria'),
+                // industry: this.extractText(x.Description, 'Industria:','Fecha Vencimiento'),
+                // expirationDate: this.extractText(x.Description, 'Fecha Vencimiento:','Modelo'),
+                // model: this.extractText(x.Description, 'Modelo:','Estado'),
+                // status: this.extractText(x.Description, 'Estado:','Peso Kg'),
+                // peso: this.extractText(x.Description, 'Peso Kg.:','Observaciones'),
+                // obs: x.Description.split('Observaciones:')[0],
               });
             });
 

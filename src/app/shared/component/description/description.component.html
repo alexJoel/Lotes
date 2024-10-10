@@ -1,0 +1,40 @@
+<div class="card w-full">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item py-1 lh-sm">
+            <b>Descripción:</b> {{extractText(params.data.desc, 'Descripción:','Características')}}
+        </li>
+        <li class="list-group-item py-1 lh-sm">
+            <b>Características:</b> {{extractText(params.data.desc, 'Características:','Cantidad')}}
+        </li>
+        <li class="list-group-item py-1 lh-sm">
+            <b>Cantidad:</b> {{extractText(params.data.desc, 'Cantidad:','Unidad de Medida')}}
+        </li>
+        <li class="list-group-item py-1 lh-sm">
+            <b>Unidad de Medida:</b> {{extractText(params.data.desc, 'Unidad de Medida:','Industria')}}
+        </li>
+        <!-- <li class="list-group-item py-1 lh-sm">
+            <b>Industria:</b> {{extractText(params.data.desc, 'Industria:','Fecha Vencimiento')}}
+        </li> -->
+        @if(extractText(params.data.desc, 'Fecha Vencimiento:','Modelo').trim() !== 'N/A'){
+            <li class="list-group-item py-1 lh-sm">
+                <b>Fecha Vencimiento:</b> {{extractText(params.data.desc, 'Fecha Vencimiento:','Modelo')}}
+            </li>
+        }
+        @if(extractText(params.data.desc, 'Modelo:','Estado').trim() !== ''){
+            <li class="list-group-item py-1 lh-sm">
+                <b>Modelo:</b> {{extractText(params.data.desc, 'Modelo:','Estado')}}
+            </li>
+        }
+        <li class="list-group-item py-1 lh-sm">
+            <b>Estado:</b> {{extractText(params.data.desc, 'Estado:','Peso Kg')}}
+        </li>
+        <li class="list-group-item py-1 lh-sm">
+            <b>Peso Kg.:</b> {{extractText(params.data.desc, 'Peso Kg.:','Observaciones')}}
+        </li>
+        @if(params.data.desc.split('Observaciones:')[1].trim() !== ''){
+            <li class="list-group-item py-1 lh-sm">
+                <b>Observaciones:</b> {{params.data.desc.split('Observaciones:')[1]}}
+            </li>
+        }
+    </ul>
+</div>
